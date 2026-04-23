@@ -195,85 +195,91 @@
  * Module list
  */
 
-.module-item-list {
-  .container-fluid {
-    margin-top: -1px;
+.modules-list {
+  display: flex;
+  flex-direction: column;
 
-    background-color: $white;
-    border: 1px solid var(--#{$cdk}primary-400);
-    padding: {
-      top: $grid-gutter-width / 2;
-      bottom: $grid-gutter-width / 2;
+  margin-inline: 0;
+}
+
+.module-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  background-color: $white;
+  border: 1px solid var(--#{$cdk}primary-400);
+  border-bottom: unset;
+
+  padding: $grid-gutter-width / 2;
+
+  &:last-child {
+    border-bottom: 1px solid var(--#{$cdk}primary-400);
+  }
+
+  &:nth-child(even) {
+    background-color: var(--#{$cdk}primary-100);
+  }
+
+  &__wrapper {
+    display: grid;
+    align-items: start;
+    grid-template-areas:
+      'thumbnail  name        notification  actions'
+      'thumbnail  hint        .             actions'
+      '.          description description   actions'
+    ;
+    grid-template-columns: 40px minmax(0, max-content) minmax(0, 1fr) min-content;
+    column-gap: 1rem;
+    row-gap: .25rem;
+
+    @include media-breakpoint-down(sm) {
+      grid-template-areas:
+        'thumbnail    name          actions'
+        'thumbnail    hint          actions'
+        'notification notification  notification'
+        'description  description   description'
+      ;
+      grid-template-columns: 40px 1fr;
     }
   }
 
-  + :nth-child(even) {
-    .container-fluid {
-      background-color: var(--#{$cdk}primary-100) !important;
-    }
+  &__thumbnail {
+    grid-area: thumbnail;
+    max-width: 40px;
   }
 
-  .module-item-wrapper-list {
-    > div {
-      @media (max-width: 33.9em) {
-        &:first-of-type {
-          width: 25%;
-        }
+  &__name {
+    grid-area: name;
+    margin: 0;
+  }
 
-        &:last-of-type {
-          width: 75%;
+  &__description {
+    grid-area: description;
+  }
 
-          > div:not(.modal) {
-            position: initial;
-          }
-        }
-      }
-    }
+  &__hint {
+    grid-area: hint;
+  }
 
-    .module-logo-thumb-list {
-      max-width: 64px;
-      height: 64px;
-      margin: 0 auto;
-      @media (max-width: 33.9em) {
-        height: auto;
-        max-height: 64px;
-      }
+  &__actions {
+    grid-area: actions;
 
-      img {
-        width: 100%;
-        max-width: 40px;
-        margin-bottom: 0.5em;
-      }
-    }
+    height: 100%;
 
-    .module-name-list {
-      margin: 0;
-      font-weight: bolder;
-      color: $gray-dark;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
 
-      @media (max-width: 33.9em) {
-        padding-right: 1.5rem;
-      }
-    }
+  &__notification {
+    grid-area: notification;
+  }
 
-    .module-version-author-list {
-      overflow: hidden;
-      font-weight: 600;
-      color: $gray-medium;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-
-      b {
-        font-weight: 600;
-        color: $gray-dark;
-      }
-    }
-
-    .module-quick-action-list {
-      > [class^="module-star-ranking-"] {
-        display: none;
-      }
-    }
+  &__notification:not(:has(*)) {
+    display: none;
   }
 }
 
@@ -363,21 +369,6 @@
 
 #module-modal-bulk-confirm-action-name {
   font-weight: 600;
-}
-
-.module-checkbox-bulk-list {
-  position: absolute;
-  top: 7px;
-  right: 7px;
-
-  @media (max-width: 33.9em) {
-    top: 0;
-    right: 1rem;
-  }
-
-  &.md-checkbox label {
-    padding: 0;
-  }
 }
 
 .module-search-bar {
@@ -879,10 +870,6 @@ form#importDropzone {
 }
 
 .module-actions {
-  @media (max-width: 33.9em) {
-    margin-top: 1rem;
-  }
-
   // @toDo: move to ui kit
   .dropdown-toggle-split-text {
     margin-left: 10px !important;

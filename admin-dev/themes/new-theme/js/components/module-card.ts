@@ -417,7 +417,7 @@ export default class ModuleCard {
         }
       })
       .fail(() => {
-        const moduleItem = jqElementObj.closest('module-item-list');
+        const moduleItem = jqElementObj.closest('.module-item-list');
         const techName = moduleItem.data('techName');
         $.growl.error({
           message: `Could not perform action ${action} for module ${techName}`,
